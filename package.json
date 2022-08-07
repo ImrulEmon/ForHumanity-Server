@@ -18,5 +18,14 @@
     "nodemon": "^2.0.18"
   },
   "keywords": [],
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImrulEmon/ForHumanity-Server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ImrulEmon/ForHumanity-Server/issues"
+  },
+  "homepage": "https://github.com/ImrulEmon/ForHumanity-Server#readme",
   "description": ""
 }

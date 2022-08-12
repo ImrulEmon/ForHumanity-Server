@@ -1,2 +1,4 @@
 .env
+.firebase
 node_modules/
+service-account.json

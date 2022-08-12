@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 //firebase initialization
-var serviceAccount = require("./.firebase/service-account.json");
+var serviceAccount = require("./service-account.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });

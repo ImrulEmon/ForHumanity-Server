@@ -10,21 +10,16 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 //firebase initialization
-var serviceAccount = require("./.firebase/service-account.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert({
-  type: process.env.FIREBASE_TYPE,
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  client_id: process.env.FIREBASE_CLIENT_ID,
-  auth_uri: process.env.FIREBASE_AUTH_URI,
-  token_uri: process.env.FIREBASE_TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL
-  }),
+//var serviceAccount = require("./.firebase/service-account.json");
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
+
+const firebaseAdminSdk = require('firebase-admin'),
+    firebaseAdminApp = firebaseAdminSdk.initializeApp({credential: firebaseAdminSdk.credential.cert(
+      JSON.parse(Buffer.from(process.env.GOOGLE_CONFIG_BASE64, 'base64').toString('ascii')))
 });
 
 //middleware
@@ -59,7 +54,7 @@ async function run() {
         req.decodedUserName = decodedUser.name;
         req.decodedUserId = decodedUser.user_id;
         //console.log(decodedUser.name)
-       //console.log(decodedUser.user_id)
+        //console.log(decodedUser.user_id)
       } catch {}
       next();
     }
@@ -97,15 +92,13 @@ async function run() {
         const cursor = membersCollection.find(query);
         const members = await cursor.toArray();
         res.send(members);
-      }
-      else if ( req.decodedUserId === email) {
+      } else if (req.decodedUserId === email) {
         const query = { uid: email };
         const cursor = membersCollection.find(query);
         const members = await cursor.toArray();
         res.send(members);
-      }
-      else{
-        res.status(401).json({messsage:"User not authorised!"})
+      } else {
+        res.status(401).json({ messsage: "User not authorised!" });
       }
       // if (email) {
       //   query = { email: email };
